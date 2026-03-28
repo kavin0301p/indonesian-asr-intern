@@ -73,6 +73,6 @@ Raw hours crawled:
   - Compared GigaSpeech2 and Granary performance on noisy, accented English data.
 
 - **Weeks 13–14 – Continued processing & repository preparation**  
-  - Updated punctuation normalisation at force algnment stage to allow `'` and `-`.
+  - Updated punctuation normalisation at force alignment stage to allow `'` and `-`.
   - Processed Indonesian and Filipino-accented English speech with the GigaSpeech2 pipeline.
   - Compiled GitHub repository.
