@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.WARNING, format="%(message)s")
 
 def is_any_a_in_b(list_a, list_b):
     """
-    判断 list_a 中是否至少有一个元素在 list_b 中（忽略大小写）
+    Determine whether at least one element in list_a is present in list_b (case-insensitive).
     """
     normalized_set_b = set(str(item).lower() for item in list_b)
     return any(str(item).lower() in normalized_set_b for item in list_a)
@@ -47,36 +47,36 @@ def filter_info_file(config_path, info_file):
             try:
                 info = json.loads(line)
             except json.JSONDecodeError:
-                logging.warning(f"❌ 跳过：第 {line_num} 行不是合法 JSON")
+                logging.warning(f"❌ Skipping: Line {line_num} is not valid JSON.")
                 continue
 
             if enable_language_filter:
                 if not is_any_a_in_b([info.get("language")], target_language_abbr):
-                    logging.warning(f"❌ 跳过：语言 '{info.get('language')}' 不在 {target_language_abbr}")
+                    logging.warning(f"❌ Skipping: Language '{info.get('language')}' is not in {target_language_abbr}")
                     continue
 
             if enable_duration_filter:
                 duration = info.get("duration", 0)
                 if not (min_duration <= duration <= max_duration):
-                    logging.warning(f"❌ 跳过：Duration {duration} 不在 [{min_duration}, {max_duration}]")
+                    logging.warning(f"❌ Skipped: Duration {duration} is not within [{min_duration}, {max_duration}]")
                     continue
 
             if enable_like_count_filter:
                 like_count = info.get("like_count")
                 if like_count is not None and like_count < min_like_count:
-                    logging.warning(f"❌ 跳过：点赞数 {like_count} 小于 {min_like_count}")
+                    logging.warning(f"❌ Skipped: Like count {like_count} is less than {min_like_count}")
                     continue
 
             subtitles = info.get("subtitles", [])
             if filter_no_subtitle:
                 if not subtitles:
-                    logging.warning("❌ 跳过：没有字幕（subtitles 列表为空）")
+                    logging.warning("❌ Skipped: No subtitles (subtitles list is empty)")
                     continue
 
             if filter_no_manual_subtitle:
                 has_manual = any(sub.get("type") == "manual" for sub in subtitles)
                 if not has_manual:
-                    logging.warning("❌ 跳过：无人工字幕（subtitles 中无 manual）")
+                    logging.warning("❌Skip: No manual subtitles")
                     continue
 
             fields_to_keep = [
@@ -93,7 +93,7 @@ def filter_info_file(config_path, info_file):
             filtered_info = {field: info.get(field) for field in fields_to_keep}
             f2.write(json.dumps(filtered_info, ensure_ascii=False) + "\n")
 
-    print(f"✅ 过滤完成，新文件输出：{output_file}")
+    print(f"✅ Filtering complete, new file output:{output_file}")
 
 
 # ========= 🚀 入口 =========
@@ -109,7 +109,7 @@ if __name__ == "__main__":
 
     channel = config.get("channel")
     if not channel:
-        raise ValueError("❌ 配置中缺少 `channel` 字段")
+        raise ValueError("❌ The `channel` field is missing from the configuration.")
 
     info_file = f"/content/drive/MyDrive/GigaSpeech2/id/raw_audio/Mono/{channel}/info/video_metadata.jsonl"
 

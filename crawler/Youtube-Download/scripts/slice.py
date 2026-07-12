@@ -9,11 +9,11 @@ import argparse
 
 def parse_vtt_file(vtt_path):
     """
-    自定义解析 WEBVTT 文件，兼容:
-    - WEBVTT 头
+    Custom WEBVTT file parsing, compatible with:
+    - WEBVTT header
     - Kind: captions
     - Language: en
-    - 时间戳块 + 多行文本
+    - Timestamp blocks + multi-line text
     """
     segments = []
     with open(vtt_path, "r", encoding="utf-8") as f:
@@ -111,11 +111,11 @@ def main(config_path):
 
         vtt_candidates = list(subs_dir.glob(f"{video_id}.*.vtt"))
         if not vtt_candidates:
-            print(f"❌ 找不到字幕：{video_id}")
+            print(f"❌ Subtitles not found:{video_id}")
             continue
 
         vtt_file = vtt_candidates[0]
-        print(f"✅ 正在处理 {video_id} ... (save_audio={save_audio})")
+        print(f"✅ Processing{video_id} ... (save_audio={save_audio})")
 
         seg_output_dir = segments_dir / video_id
         seg_output_dir.mkdir(parents=True, exist_ok=True)
@@ -132,7 +132,7 @@ def main(config_path):
         with open(seg_output_dir / "segments.json", "w", encoding="utf-8") as f:
             json.dump(seg_info, f, ensure_ascii=False, indent=2)
 
-        print(f"🎉 完成：{len(seg_info)} 段，JSON 已保存 -> {seg_output_dir/'segments.json'}")
+        print(f"🎉 Completed: {len(seg_info)} segments, JSON saved -> {seg_output_dir/'segments.json'}")
 
 
 if __name__ == "__main__":

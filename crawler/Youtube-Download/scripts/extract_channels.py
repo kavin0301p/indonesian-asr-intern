@@ -10,8 +10,8 @@ import re
 
 def get_subtitle_language(result: str):
     """
-    解析 `yt-dlp --list-subs` 输出
-    返回字幕列表:
+    Parse `yt-dlp --list-subs` output
+    Returns a list of subtitles:
       [{"lang": "en", "type": "auto"}, {"lang": "ch-Hans", "type": "manual"}]
     """
     subtitles = []
@@ -60,11 +60,11 @@ def get_subtitle_language(result: str):
 
 def process_channel_videos(config_path="./config/config.yaml"):
     """
-    主流程：
-    1. 加载配置文件
-    2. 调用 yt-dlp 获取频道视频元数据
-    3. 解析所有字幕元素
-    4. 输出 JSONL，只保存 subtitles
+    Main workflow:
+    1. Load configuration file
+    2. Call yt-dlp to retrieve channel video metadata
+    3. Parse all subtitle elements
+    4. Output JSONL, saving only the subtitles
     """
 
     # ========= 1️⃣ 加载配置 =========
@@ -78,7 +78,7 @@ def process_channel_videos(config_path="./config/config.yaml"):
     sub_lang = config.get("subtitle_lang", None)
 
     if not channel:
-        print("❌ 配置文件缺少 `channel` 字段，无法继续")
+        print("❌ The configuration file is missing the `channel` field; cannot proceed.")
         sys.exit(1)
 
     # ========= 2️⃣ 输出文件准备 =========
@@ -92,10 +92,10 @@ def process_channel_videos(config_path="./config/config.yaml"):
     archive_path = channel_output_dir / download_archive_name
     json_output_path = channel_output_dir / metadata_json_name
 
-    print(f"📥 正在处理频道: {channel} (视频范围: {start_index}:{end_index})")
-    print(f"📁 输出路径: {channel_output_dir}")
-    print(f"📄 下载归档文件: {archive_path}")
-    print(f"🧾 元数据输出文件: {json_output_path}")
+    print(f"📥 Processing channel: {channel} (Video scope: {start_index}:{end_index})")
+    print(f"📁 Output path: {channel_output_dir}")
+    print(f"📄 Download archive file: {archive_path}")
+    print(f"🧾 Metadata output file: {json_output_path}")
 
     # ========= 3️⃣ yt-dlp 命令 =========
     index_range = f"{start_index}:{end_index}"
@@ -153,10 +153,10 @@ def process_channel_videos(config_path="./config/config.yaml"):
                 json.dump(filtered, outfile, ensure_ascii=False)
                 outfile.write("\n")
 
-                print(f"✅ 已保存视频 ID: {filtered['id']}")
+                print(f"✅ Video saved ID: {filtered['id']}")
 
             except json.JSONDecodeError:
-                print("⚠️ 跳过一条无效 JSON")
+                print("⚠️ Skipped one invalid entry. JSON")
                 continue
 
 

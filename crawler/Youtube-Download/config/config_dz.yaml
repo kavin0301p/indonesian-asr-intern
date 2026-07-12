@@ -1,39 +1,39 @@
-# 📺 频道名称
-channel: "EchoroukTVOfficiel"
+# 📺 Channel Name
+channel: "madangowri"
 
-# 🎯 视频抓取范围（从 start_index 开始，左闭右开）
-start_index: 11
-end_index: 13
+# 🎯 Video capture range (starting from `start_index`, inclusive of the start and exclusive of the end)
+start_index: 1
+end_index: 11
 
-# 🗣️ 字幕检测目标语言（只检测该语言）
-subtitle_lang: "en"
+# 🗣️ Subtitle detection target language (detect only this language)
+subtitle_lang: "ta"
 
-# ⚙️ 所有过滤条件归在 filter 下
+# ⚙️ All filter criteria are grouped under filter 下
 filter:
-  # 🌍 语言过滤开关及目标匹配词
+  # 🌍 Language filtering toggle and target matching words
   enable_language_filter: true
   target_language_abbr:
-    - "algeria"
-    - "ar"
-    - "dz"
-    - "algerie"
-    - "alg"
+    - "tamil"
+    - "ta"
+    - "tam"
+    - "தமிழ்"
+    - "தமிழ் மொழி"
 
 
-  # 🎬 时长过滤
+  # 🎬 Duration filter
   enable_duration_filter: true
-  min_duration: 20       # 单位：秒
-  max_duration: 18000    # 单位：秒
+  min_duration: 20       # Unit : Seconds
+  max_duration: 18000    # Unit : Seconds
 
-  # 👍 点赞数过滤
+  # 👍 Filter by number of likes
   enable_like_count_filter: true
   min_like_count: 10
 
-  # 🎙️ 字幕过滤
-  filter_no_subtitle: true           # 丢弃无字幕视频
-  filter_no_manual_subtitle: false   # 丢弃无人工字幕视频
+  # 🎙️ Subtitle filtering
+  filter_no_subtitle: true           # Discard videos without subtitles
+  filter_no_manual_subtitle: false   # Discard videos without human-generated subtitles.
 
 
-# ✂️ 切分配置
-slice_sample_rate: 16000   # 输出采样率 Hz
-slice_save_audio: false    # 是否保存切片音频（false = 只保存 JSON）
+# ✂️ Segmentation configuration
+slice_sample_rate: 16000   # Output sampling rate (Hz)
+slice_save_audio: false    # Whether to save the sliced ​​audio (false = save JSON only)

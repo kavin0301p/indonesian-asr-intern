@@ -6,7 +6,7 @@ import argparse
 
 
 def download_audio_and_subtitles(config_path):
-    # === 1️⃣ 加载配置 ===
+    # === 1️⃣ Load Configuration===
     with open(config_path, "r", encoding="utf-8") as f:
         config = yaml.safe_load(f)
 
@@ -14,7 +14,7 @@ def download_audio_and_subtitles(config_path):
     COOKIE_FILE = config.get("COOKIE_FILE", "./config/cookies.txt")
     subtitle_lang = config.get("subtitle_lang")
 
-    # === 2️⃣ 目录准备 ===
+    # === 2️⃣ Directory Preparation ===
     base_output_dir = Path(config.get("output_dir", "./output"))
     channel_dir = base_output_dir / channel
     channel_audio_dir = channel_dir / "audio"
@@ -24,7 +24,7 @@ def download_audio_and_subtitles(config_path):
     channel_audio_dir.mkdir(parents=True, exist_ok=True)
     channel_subs_dir.mkdir(parents=True, exist_ok=True)
 
-    # === 3️⃣ 下载记录文件 ===
+    # === 3️⃣ Download log file ===
     downloaded_list_file = channel_dir / "downloaded.txt"
     if downloaded_list_file.exists():
         with open(downloaded_list_file, "r", encoding="utf-8") as f:
@@ -32,7 +32,7 @@ def download_audio_and_subtitles(config_path):
     else:
         downloaded_ids = set()
 
-    # === 4️⃣ 已过滤文件 ===
+    # === 4️⃣ Filtered files ===
     filtered_info_file = channel_info_dir / "video_metadata-filtered.jsonl"
     with open(filtered_info_file, encoding="utf-8") as f:
         lines = f.readlines()
@@ -41,19 +41,19 @@ def download_audio_and_subtitles(config_path):
         try:
             info = json.loads(line)
         except json.JSONDecodeError:
-            print(f"❌ 跳过：第 {line_num} 行不是合法 JSON")
+            print(f"❌ Skip: No. {line_num} It is not legal. JSON")
             continue
 
         video_id = info["id"]
         if video_id in downloaded_ids:
-            print(f"⏭️ 已下载，跳过：{video_id}")
+            print(f"⏭️ Already downloaded, skipping:{video_id}")
             continue
 
         video_url = f"https://www.youtube.com/watch?v={video_id}"
 
         # === 5️⃣ 下载音频 ===
         audio_output = channel_audio_dir / f"{video_id}.webm"
-        print(f"🎵 正在下载音频：{video_id}")
+        print(f"🎵 Downloading audio...：{video_id}")
         try:
             subprocess.run([
                 "yt-dlp",
@@ -63,7 +63,7 @@ def download_audio_and_subtitles(config_path):
                 video_url
             ], check=True)
         except subprocess.CalledProcessError:
-            print(f"⚠️ 音频下载失败：{video_id}")
+            print(f"⚠️ Audio download failed:{video_id}")
             continue  # 音频没下成功，整个跳过，不写记录
 
         # === 6️⃣ 下载字幕（最多 1 个） ===
@@ -83,7 +83,7 @@ def download_audio_and_subtitles(config_path):
 
         if target_sub:
             lang = target_sub["lang"]
-            print(f"📝 正在下载字幕：{video_id} - {lang} ({target_sub['type']})")
+            print(f"📝 Downloading subtitles:{video_id} - {lang} ({target_sub['type']})")
             try:
                 subprocess.run([
                     "yt-dlp",
@@ -96,17 +96,17 @@ def download_audio_and_subtitles(config_path):
                     video_url
                 ], check=True)
             except subprocess.CalledProcessError:
-                print(f"⚠️ 字幕下载失败：{video_id} - {lang}")
+                print(f"⚠️ Subtitle download failed:{video_id} - {lang}")
         else:
-            print(f"ℹ️ 无可用字幕：{video_id} (优先 {subtitle_lang})")
+            print(f"ℹ️ No subtitles available:{video_id} (priority {subtitle_lang})")
 
         # === 7️⃣ 下载成功，记录 ID ===
         with open(downloaded_list_file, "a", encoding="utf-8") as f:
             f.write(f"{video_id}\n")
         downloaded_ids.add(video_id)
-        print(f"✅ 已记录下载完成：{video_id}")
+        print(f"✅ Download completion recorded.：{video_id}")
 
-    print("🎉 所有音频与字幕下载任务已完成")
+    print("🎉 All audio and subtitle download tasks have been completed.")
 
 
 # ========= 🚀 入口一致 =========
