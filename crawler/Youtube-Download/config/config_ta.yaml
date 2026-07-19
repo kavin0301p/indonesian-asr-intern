@@ -1,0 +1,39 @@
+# 📺 Channel Name
+channel: "madangowri"
+
+# 🎯 Video capture range (starting from `start_index`, inclusive of the start and exclusive of the end)
+start_index: 1
+end_index: 11
+
+# 🗣️ Subtitle detection target language (detect only this language)
+subtitle_lang: "ta"
+
+# ⚙️ All filter criteria are grouped under filter 下
+filter:
+  # 🌍 Language filtering toggle and target matching words
+  enable_language_filter: true
+  target_language_abbr:
+    - "ta"
+    - "tamil"
+    - "tam"
+    - "தமிழ்"
+    - "தமிழ் மொழி"
+
+
+  # 🎬 Duration filter
+  enable_duration_filter: true
+  min_duration: 20       # Unit : Seconds
+  max_duration: 18000    # Unit : Seconds
+
+  # 👍 Filter by number of likes
+  enable_like_count_filter: true
+  min_like_count: 10
+
+  # 🎙️ Subtitle filtering
+  filter_no_subtitle: true           # Discard videos without subtitles
+  filter_no_manual_subtitle: false   # Discard videos without human-generated subtitles.
+
+
+# ✂️ Segmentation configuration
+slice_sample_rate: 16000   # Output sampling rate (Hz)
+slice_save_audio: false    # Whether to save the sliced ​​audio (false = save JSON only)

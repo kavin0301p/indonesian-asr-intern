@@ -2,12 +2,12 @@
 
 # ========= 🧱 基本配置 =========
 WORKSPACE_ROOT="/content/drive/MyDrive/GigaSpeech2/AudioDataCrawler-main/Youtube-Download"
-DEFAULT_CHANNEL_ID="worldofxtra"
+DEFAULT_CHANNEL_ID="madangowri"
 GLM4_API_KEY="fba65bf39c56486d80626fe0fac938c5.RUu9pPua4XZPypeE"
 COOKIE_FILE="/content/drive/MyDrive/GigaSpeech2/AudioDataCrawler-main/Youtube-Download/config/cookies.txt"
 
 # ========= ⚙️ 全局 CONFIG 设置 =========
-CONFIG_NAME="config_en"   # 所选取的设置
+CONFIG_NAME="config_ta"   # 所选取的设置
 CONFIG_PATH="/content/drive/MyDrive/GigaSpeech2/AudioDataCrawler-main/Youtube-Download/config/${CONFIG_NAME}.yaml"
 
 # ========= 📐 解析参数 =========
